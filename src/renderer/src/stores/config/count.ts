@@ -1,3 +1,4 @@
+import { ta } from 'element-plus/es/locale';
 import math from '../../plugins/math';
 
 const Validate = (...args: string[]) => {
@@ -8,8 +9,13 @@ const Validate = (...args: string[]) => {
   }
   return true;
 };
+
+const Compare = (leftv: string, rightv: string) => {
+  return math.evaluate(`${leftv} <= ${rightv}`) as boolean;
+};
 const useCountStore = () =>
   defineStore('count', {
+    persist: true,
     state: (): Count => ({
       N: '',
       d: '',
@@ -31,14 +37,8 @@ const useCountStore = () =>
        * 耳板验算时t取值
        */
       tCop: (state): string => {
-        if (!state.t1) {
-          return '需要填入(连接耳板1厚 t1)';
-        }
-        if (!state.t2) {
-          return '需要填入(连接耳板2厚 t2)';
-        }
-        if (!state.n) {
-          return '需要填入(销轴剪切面数 n)';
+        if (!state.t1 || !state.t2 || !state.n) {
+          return '';
         }
 
         const _1 = math.evaluate(`${state.t1} * ${state.n}`).toString();
@@ -48,17 +48,8 @@ const useCountStore = () =>
        * 耳板验算时N取值
        */
       NCop: (state): string => {
-        if (!state.t1) {
-          return '需要填入(连接耳板1厚 t1)';
-        }
-        if (!state.t2) {
-          return '需要填入(连接耳板2厚 t2)';
-        }
-        if (!state.n) {
-          return '需要填入(销轴剪切面数 n)';
-        }
-        if (!state.N) {
-          return '需要填入(杆件内力 N)';
+        if (!state.t1 || !state.t2 || !state.n || !state.N) {
+          return '';
         }
         const _1 = math.evaluate(`${state.t1} * ${state.n}`).toString();
         return math.evaluate(`${_1} > ${state.t2}`)
@@ -71,15 +62,20 @@ const useCountStore = () =>
             sigma: '请将参数填写完整',
             f: '请将参数填写完整',
             b1: '请将参数填写完整',
+            res: null,
           };
         }
+        console.log(this.NCop);
+
+        const _1 = math.evaluate(`2 * ${this.tCop} + 16`);
         const _2 = math.evaluate(`${state.b} - ${state.d0} / 3`).toString();
-        const b1 = math.evaluate(`${this.tCop} < ${_2}`) ? this.tCop : _2;
+        const b1 = math.evaluate(`${_1} < ${_2}`) ? _1 : _2;
         const sigma = math.evaluate(`${this.NCop} * 1000 / (2 * ${this.tCop} * ${b1})`).toString();
         return {
           sigma,
           f: state.f1,
           b1,
+          res: Compare(sigma, state.f1),
         };
       },
       result2(state): Result2 {
@@ -87,6 +83,7 @@ const useCountStore = () =>
           return {
             sigma: '请将参数填写完整',
             f: '请将参数填写完整',
+            res: null,
           };
         }
         const sigma = math
@@ -95,6 +92,7 @@ const useCountStore = () =>
         return {
           sigma,
           f: state.f1,
+          res: Compare(sigma, state.f1),
         };
       },
       result3(state): Result3 {
@@ -103,6 +101,7 @@ const useCountStore = () =>
             tao: '请将参数填写完整',
             fv: '请将参数填写完整',
             Z: '请将参数填写完整',
+            res: null,
           };
         }
         const Z = math
@@ -113,6 +112,7 @@ const useCountStore = () =>
           tao,
           fv: state.f3,
           Z,
+          res: Compare(tao, state.f3),
         };
       },
       result4(state): Result4 {
@@ -120,12 +120,14 @@ const useCountStore = () =>
           return {
             sigmaC: '请将参数填写完整',
             fbc: '请将参数填写完整',
+            res: null,
           };
         }
         const sigmaC = math.evaluate(`${state.N} * 1000 / (${state.d} * ${this.tCop})`).toString();
         return {
           sigmaC,
           fbc: state.f2,
+          res: Compare(sigmaC, state.f2),
         };
       },
       result5(state): Result5 {
@@ -133,22 +135,27 @@ const useCountStore = () =>
           return {
             tao: '请将参数填写完整',
             fv: '请将参数填写完整',
+            res: null,
           };
         }
         const tao = math
-          .evaluate(`${state.N} * 1000 / (${state.a} * 3.14 * ((${state.d} * ${state.d}) / 4))`)
+          .evaluate(`${state.N} * 1000 / (${state.n} * 3.14 * ((${state.d} * ${state.d}) / 4))`)
           .toString();
         return {
           tao,
           fv: state.f4,
+          res: Compare(tao, state.f4),
         };
       },
       result6(state): Result6 {
         if (!Validate(state.t1, state.t2, state.N, state.d, state.f4)) {
           return {
             sigmaB: '请将参数填写完整',
-            fv: '请将参数填写完整',
+            fb: '请将参数填写完整',
             M: '请将参数填写完整',
+            res: null,
+            q: '请将参数填写完整',
+            resq: null,
           };
         }
         const M = math
@@ -159,10 +166,16 @@ const useCountStore = () =>
             `(${M} * 1000 * 1000) / (1.5 * (3.14 * ${state.d} * ${state.d} * ${state.d}) / 32)`,
           )
           .toString();
+        const q = math.evaluate(
+          `sqrt((${sigmaB} / ${state.f4}) ^ 2 + (${this.result5.tao} / ${this.result5.fv}) ^ 2)`,
+        );
         return {
           sigmaB,
-          fv: state.f4,
+          fb: state.f4,
           M,
+          q,
+          res: Compare(sigmaB, state.f4),
+          resq: Compare(q, '1'),
         };
       },
     },
@@ -230,27 +243,35 @@ export interface Result1 {
   sigma: string;
   f: string;
   b1: string;
+  res: boolean | null;
 }
 export interface Result2 {
   sigma: string;
   f: string;
+  res: boolean | null;
 }
 export interface Result3 {
   tao: string;
   fv: string;
   Z: string;
+  res: boolean | null;
 }
 export interface Result4 {
   sigmaC: string;
   fbc: string;
+  res: boolean | null;
 }
 export interface Result5 {
   tao: string;
   fv: string;
+  res: boolean | null;
 }
 export interface Result6 {
   sigmaB: string;
-  fv: string;
+  fb: string;
   M: string;
+  q: string;
+  res: boolean | null;
+  resq: boolean | null;
 }
 export default useCountStore();
