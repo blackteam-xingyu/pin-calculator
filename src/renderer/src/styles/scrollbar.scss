@@ -1,0 +1,34 @@
+/* 此文件为scss格式但请一定用css格式书写 */
+
+::-webkit-scrollbar {
+  width: 8px;
+  /*滚动条宽度*/
+  height: 8px;
+  /*滚动条高度*/
+}
+/* 如果是整个页面的滚动条 */
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  /*滚动条的背景区域的内阴影*/
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0) inset;
+
+  /*滚动条的背景区域的圆角*/
+  border-radius: 8px;
+
+  /*滚动条的背景颜色*/
+  background-color: rgba(230, 230, 230, 0);
+  //background-color: #f5f8f8;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  /*滚动条的内阴影*/
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0) inset;
+
+  /*滚动条的圆角*/
+  border-radius: 8px;
+
+  /*滚动条的背景颜色*/
+  // background-color: rgba(102, 102, 102, 0.12);
+  background-color: rgba(217, 217, 217, 1);
+}
