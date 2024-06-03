@@ -23,10 +23,12 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "docxtemplater": "^3.47.4",
     "element-plus": "^2.7.3",
     "mathjs": "^12.4.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "pizzip": "^3.1.7",
     "vue-router": "4"
   },
   "devDependencies": {

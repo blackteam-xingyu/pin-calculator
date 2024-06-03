@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import type { Result1, Result2, Result3, Result4, Result5, Result6 } from '../stores/config/count';
 
 const { countStore } = useStore();
-const { result1, result2, result3, result4, result5, result6 } = storeToRefs(countStore);
+const { result1, result2, result3, result4, result5, result6 } = countStore;
 
 const getResult = (res: boolean | null) => {
-  if (res === null) {
-    return '';
-  }
   if (res === true) {
     return '满足要求';
   }
   if (res === false) {
     return '请调整设计';
-  } else {
-    return '';
   }
+  return '';
 };
 </script>
 
@@ -25,35 +21,35 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result1/img.png" alt="error" />
-        <img src="../assets/result1/img2.png" alt="error" />
+        <img src="../assets/result1/img.png" alt="error" >
+        <img src="../assets/result1/img2.png" alt="error" >
       </div>
     </ElRow>
     <ElRow class="data">
       <ElDescriptions border :column="2">
         <ElDescriptionsItem>
           <template #label>
-            <div class="data-title">σ =</div>
+            <div class="data-title">σ=</div>
           </template>
-          {{ result1.sigma }}
+          {{ (result1 as Result1).sigma }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">≤f=</div>
           </template>
-          {{ result1.f }}
+          {{ (result1 as Result1).f }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
-            <div class="data-title">b<span class="downer">1</span> =</div>
+            <div class="data-title">b<span class="downer">1</span>=</div>
           </template>
-          {{ result1.b1 }}
+          {{ (result1 as Result1).b1 }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">校验结果</div>
           </template>
-          {{ getResult(result1.res) }}
+          {{ getResult((result1 as Result1).res) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>
@@ -62,28 +58,28 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result2/img.png" alt="error" />
+        <img src="../assets/result2/img.png" alt="error" >
       </div>
     </ElRow>
     <ElRow class="data">
       <ElDescriptions border :column="2">
         <ElDescriptionsItem>
           <template #label>
-            <div class="data-title">σ =</div>
+            <div class="data-title">σ=</div>
           </template>
-          {{ result2.sigma }}
+          {{ (result2 as Result2).sigma }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">≤f=</div>
           </template>
-          {{ result2.f }}
+          {{ (result2 as Result2).f }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">校验结果</div>
           </template>
-          {{ getResult(result2.res) }}
+          {{ getResult((result2 as Result2).res) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>
@@ -92,35 +88,35 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result3/img.png" alt="error" />
-        <img src="../assets/result3/img2.png" alt="error" />
+        <img src="../assets/result3/img.png" alt="error" >
+        <img src="../assets/result3/img2.png" alt="error" >
       </div>
     </ElRow>
     <ElRow class="data">
       <ElDescriptions border :column="2">
         <ElDescriptionsItem>
           <template #label>
-            <div class="data-title">τ =</div>
+            <div class="data-title">τ=</div>
           </template>
-          {{ result3.tao }}
+          {{ (result3 as Result3).tao }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">≤f<span class="downer">v</span>=</div>
           </template>
-          {{ result3.fv }}
+          {{ (result3 as Result3).fv }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
-            <div class="data-title">Z =</div>
+            <div class="data-title">Z=</div>
           </template>
-          {{ result3.Z }}
+          {{ (result3 as Result3).Z }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">校验结果</div>
           </template>
-          {{ getResult(result3.res) }}
+          {{ getResult((result3 as Result3).res) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>
@@ -129,7 +125,7 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result4/img.png" alt="error" />
+        <img src="../assets/result4/img.png" alt="error" >
       </div>
     </ElRow>
     <ElRow class="data">
@@ -138,7 +134,7 @@ const getResult = (res: boolean | null) => {
           <template #label>
             <div class="data-title">σ<span class="downer">c</span>=</div>
           </template>
-          {{ result4.sigmaC }}
+          {{ (result4 as Result4).sigmaC }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
@@ -146,13 +142,13 @@ const getResult = (res: boolean | null) => {
               ≤f<span class="upper">b</span><span class="downer">c</span>=
             </div>
           </template>
-          {{ result4.fbc }}
+          {{ (result4 as Result4).fbc }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">校验结果</div>
           </template>
-          {{ getResult(result4.res)  }}
+          {{ getResult((result4 as Result4).res) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>
@@ -161,7 +157,7 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result5/img.png" alt="error" />
+        <img src="../assets/result5/img.png" alt="error" >
       </div>
     </ElRow>
     <ElRow class="data">
@@ -170,19 +166,19 @@ const getResult = (res: boolean | null) => {
           <template #label>
             <div class="data-title">τ<span class="downer">b</span>=</div>
           </template>
-          {{ result5.tao }}
+          {{ (result5 as Result5).tao }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">≤f<span class="downer">v</span>=</div>
           </template>
-          {{ result5.fv }}
+          {{ (result5 as Result5).fv }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">校验结果</div>
           </template>
-          {{ getResult(result5.res)  }}
+          {{ getResult((result5 as Result5).res) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>
@@ -191,35 +187,53 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result6/img.png" alt="error" />
-        <img src="../assets/result6/img2.png" alt="error" />
+        <img src="../assets/result6/img.png" alt="error" >
+        <img src="../assets/result6/img2.png" alt="error" >
       </div>
     </ElRow>
     <ElRow class="data">
-      <ElDescriptions border :column="2">
+      <ElDescriptions border :column="3">
         <ElDescriptionsItem>
           <template #label>
-            <div class="data-title">σ<span class="downer">b</span> =</div>
+            <div class="data-title">M</div>
           </template>
-          {{ result6.sigmaB }}
+          {{ (result6 as Result6).M }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">σ<span class="downer">b</span>=</div>
+          </template>
+          {{ (result6 as Result6).sigmaB }}
         </ElDescriptionsItem>
         <ElDescriptionsItem>
           <template #label>
             <div class="data-title">≤f<span class="upper">b</span>=</div>
           </template>
-          {{ result6.fb }}
+          {{ (result6 as Result6).fb }}
         </ElDescriptionsItem>
-        <ElDescriptionsItem>
+        <ElDescriptionsItem :span="3">
           <template #label>
-            <div class="data-title">M</div>
+            <div class="data-title">销轴抗弯强度校验结果</div>
           </template>
-          {{ result6.M }}
+          {{ getResult((result6 as Result6).res) }}
         </ElDescriptionsItem>
-        <ElDescriptionsItem>
+        <ElDescriptionsItem :span="2">
           <template #label>
-            <div class="data-title">校验结果</div>
+            <div class="data-title">材料组合强度</div>
           </template>
-          {{ result1.sigma <= result1.f ? '满足要求' : '请调整设计' }}
+          {{ (result6 as Result6).q }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem :span="1">
+          <template #label>
+            <div class="data-title">≤</div>
+          </template>
+          1
+        </ElDescriptionsItem>
+        <ElDescriptionsItem :span="3">
+          <template #label>
+            <div class="data-title">材料组合强度强度校验结果</div>
+          </template>
+          {{ getResult((result6 as Result6).resq) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>

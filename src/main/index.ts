@@ -1,8 +1,11 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron';
-import { join } from 'path';
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron';
+import { join, resolve } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import fs from 'fs';
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
 import icon from '../../resources/icon.png?asset';
-import { fileURLToPath, URL } from 'node:url';
+import inputWord from '../../resources/input.docx?asset';
 
 function createWindow(): void {
   // Create the browser window.
@@ -43,7 +46,6 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron');
 
@@ -56,6 +58,81 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'));
+  ipcMain.on('saveExcelFile', (event, file: string) => {
+    const webContents = event.sender;
+    const win = BrowserWindow.fromWebContents(webContents);
+    if (!file) {
+      dialog.showErrorBox('错误', '没有计算书数据');
+      return;
+    }
+    if (!win) {
+      dialog.showErrorBox('错误', '失去窗口引用');
+      return;
+    }
+    dialog
+      .showSaveDialog(win, {
+        title: '生成计算书',
+        defaultPath: resolve(app.getPath('documents'), '计算书.docx'),
+        filters: [{ name: 'Word文件(doc、docx)', extensions: ['doc', 'docx'] }],
+      })
+      .then(({ canceled, filePath }) => {
+        if (canceled) {
+          console.warn('生成取消');
+          return;
+        }
+        if (!filePath) {
+          console.error('生成异常，没有文件路径');
+          dialog.showErrorBox('错误', '生成异常，没有文件路径');
+          return;
+        }
+        console.log('filePath:', filePath);
+
+        try {
+          const content = fs.readFileSync(inputWord, 'binary');
+          const zip = new PizZip(content);
+          const docx = new Docxtemplater(zip, {
+            paragraphLoop: true,
+            linebreaks: true,
+          });
+          try {
+            docx.setData(JSON.parse(file));
+            docx.render(JSON.parse(file));
+            const buf = docx.getZip().generate({
+              type: 'nodebuffer',
+              compression: 'DEFLATE',
+            });
+            fs.writeFile(filePath, buf, (err) => {
+              if (err) {
+                dialog.showErrorBox('错误', '生成失败，未知异常');
+                return;
+              }
+              dialog
+                .showMessageBox(win, {
+                  message: '计算书生成成功',
+                  type: 'info',
+                  buttons: ['确定', '打开文件', '在文件夹查看'],
+                  title: '成功',
+                })
+                .then(({ response }) => {
+                  if (response) {
+                    if (response === 1) {
+                      shell.openPath(filePath);
+                    } else {
+                      shell.showItemInFolder(filePath);
+                    }
+                  }
+                });
+            });
+          } catch (e) {
+            console.error(e);
+            dialog.showErrorBox('错误', '渲染失败');
+          }
+        } catch (e) {
+          console.error(e);
+          dialog.showErrorBox('错误', '生成失败，找不到模板');
+        }
+      });
+  });
 
   createWindow();
 
