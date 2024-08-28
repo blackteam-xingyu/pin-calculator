@@ -22,6 +22,5 @@ declare module 'vue' {
     ResultView: typeof import('./components/ResultView.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    WordView: typeof import('./components/WordView.vue')['default']
   }
 }

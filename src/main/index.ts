@@ -59,6 +59,7 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'));
   ipcMain.on('saveExcelFile', (event, file: string) => {
+    const fileJSON = JSON.parse(file);
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
     if (!file) {
@@ -85,7 +86,6 @@ app.whenReady().then(() => {
           dialog.showErrorBox('错误', '生成异常，没有文件路径');
           return;
         }
-        console.log('filePath:', filePath);
 
         try {
           const content = fs.readFileSync(inputWord, 'binary');
@@ -95,8 +95,9 @@ app.whenReady().then(() => {
             linebreaks: true,
           });
           try {
-            docx.setData(JSON.parse(file));
-            docx.render(JSON.parse(file));
+
+            // docx.setData(fileJSON);
+            docx.render(fileJSON);
             const buf = docx.getZip().generate({
               type: 'nodebuffer',
               compression: 'DEFLATE',

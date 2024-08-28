@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import type { Result1, Result2, Result3, Result4, Result5, Result6 } from '../stores/config/count';
+import { SaveFile } from '../engines/Utils';
 
 const { countStore } = useStore();
 const { result1, result2, result3, result4, result5, result6 } = countStore;
-
+const { N, d, d0, t1, t2, a, b, f1, f2, f3, f4, f5, n, f6, tCop, NCop } = storeToRefs(countStore);
 const getResult = (res: boolean | null) => {
   if (res === true) {
     return '满足要求';
@@ -13,11 +15,58 @@ const getResult = (res: boolean | null) => {
   }
   return '';
 };
+const selectFolder = () => {
+  const data = {
+    N: N.value,
+    d: d.value,
+    d0: d0.value,
+    t1: t1.value,
+    t2: t2.value,
+    a: a.value,
+    b: b.value,
+    f1: f1.value,
+    f2: f2.value,
+    f3: f3.value,
+    f4: f4.value,
+    f5: f5.value,
+    n: n ? n.value : 0,
+    f6: f6.value,
+    tCop: tCop.value,
+    NCop: NCop.value,
+    result1sigma: result1.sigma,
+    result1f: result1.f,
+    result1b1: result1.b1,
+    result1res: result1.res,
+    result2sigma: result2.sigma,
+    result2f: result2.f,
+    result2res: result2.res,
+    result3tao: result3.tao,
+    result3fv: result3.fv,
+    result3Z: result3.Z,
+    result3res: result3.res,
+    result4sigmaC: result4.sigmaC,
+    result4fbc: result4.fbc,
+    result4res: result4.res,
+    result5tao: result5.tao,
+    result5fv: result5.fv,
+    result5res: result5.res,
+    result6sigmaB: result6.sigmaB,
+    result6fb: result6.fb,
+    result6M: result6.M,
+    result6q: result6.q,
+    result6resq: result6.resq,
+    result6res: result6.res,
+  };
+  SaveFile(data);
+};
 </script>
 
 <template>
   <div class="result">
-    <ElRow class="title"> 1、销轴孔净截面耳板抗拉强度验算 </ElRow>
+    <ElRow class="title">
+      1、销轴孔净截面耳板抗拉强度验算
+      <ElButton size="small" type="success" style="margin-left: 20px;" @click="selectFolder"> 生成word表格计算书 </ElButton>
+    </ElRow>
     <ElRow>
       <div class="gs">
         公式：
@@ -58,7 +107,7 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result2/img.png" alt="error" >
+        <img src="../assets/result2/img.png" alt="error" style="height: 60px" >
       </div>
     </ElRow>
     <ElRow class="data">
@@ -88,8 +137,8 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result3/img.png" alt="error" >
-        <img src="../assets/result3/img2.png" alt="error" >
+        <img src="../assets/result3/img.png" alt="error" style="height: 45px" >
+        <img src="../assets/result3/img2.png" alt="error" style="height: 20px" >
       </div>
     </ElRow>
     <ElRow class="data">
@@ -125,7 +174,7 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result4/img.png" alt="error" >
+        <img src="../assets/result4/img.png" alt="error" style="height: 43px" >
       </div>
     </ElRow>
     <ElRow class="data">
@@ -157,7 +206,7 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result5/img.png" alt="error" >
+        <img src="../assets/result5/img.png" alt="error" style="height: 60px" >
       </div>
     </ElRow>
     <ElRow class="data">
@@ -187,8 +236,9 @@ const getResult = (res: boolean | null) => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result6/img.png" alt="error" >
-        <img src="../assets/result6/img2.png" alt="error" >
+        <img src="../assets/result6/img.png" alt="error" style="height: 60px" >
+        <img src="../assets/result6/img2.png" alt="error" style="height: 60px" >
+        <img src="../assets/result6/img3.png" alt="error" style="height: 40px" >
       </div>
     </ElRow>
     <ElRow class="data">

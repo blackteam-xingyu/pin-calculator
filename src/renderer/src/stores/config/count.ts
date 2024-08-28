@@ -66,8 +66,8 @@ const useCountStore = () =>
             res: null,
           };
         }
-        const _1 = math.evaluate(`2 * ${this.tCop} + 16`);
-        const _2 = math.evaluate(`${state.b} - ${state.d0} / 3`);
+        const _1 = math.evaluate(`2 * ${this.tCop} + 16`).toString();
+        const _2 = math.evaluate(`${state.b} - ${state.d0} / 3`).toString();
         const b1 = math.evaluate(`${_1} < ${_2}`) ? _1 : _2;
         const sigma = math.evaluate(`${this.NCop} * 1000 / (2 * ${this.tCop} * ${b1})`).toFixed(2);
         return {
@@ -162,7 +162,7 @@ const useCountStore = () =>
           .toFixed(2);
         const sigmaB = math
           .evaluate(
-            `(${M} * 1000 * 1000) / (1.5 * (3.14 * ${state.d} * ${state.d} * ${state.d}) / 32)`,
+            `(${M} * 1000 * 1000) / (15 * (3.14 * ${state.d} * ${state.d} * ${state.d}) / 32)`,
           )
           .toFixed(2);
         const q = math

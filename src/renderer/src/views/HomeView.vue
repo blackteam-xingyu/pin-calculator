@@ -11,10 +11,6 @@ const tabs = [
     label: '计算结果',
     name: TABS.RES,
   },
-  {
-    label: '输出计算书',
-    name: TABS.WORD,
-  },
 ];
 </script>
 
@@ -25,7 +21,7 @@ const tabs = [
   <transition name="el-fade-in" mode="out-in">
     <ParameterView v-if="activeTab === TABS.PARAM" />
     <ResultView v-else-if="activeTab === TABS.RES" />
-    <WordView v-else-if="activeTab === TABS.WORD" />
+<!--    <WordView v-else-if="activeTab === TABS.WORD" />-->
   </transition>
 </template>
 
