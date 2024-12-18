@@ -127,7 +127,7 @@ module.exports = {
     'vue/no-unused-components': 'warn',
     'vue/attributes-order': 'error',
     'vue/html-self-closing': 'error',
-    'vue/max-attributes-per-line': ['error', { singleline: 4 }],
+    // 'vue/max-attributes-per-line': ['warn', { singleline: 4 }],
     'vue/no-v-html': 'error',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multi-word-component-names': ['error', {

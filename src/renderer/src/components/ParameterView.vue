@@ -10,14 +10,9 @@ const { clear } = countStore;
       <ElRow>
         <div class="title">
           1、 输入参数
-          <ElButton
-style="margin-left: 20px"
-size="small"
-type="primary"
-plain
-@click="clear"
-            >清空</ElButton
-          >
+          <ElButton style="margin-left: 20px" size="small" type="primary" plain @click="clear">
+            清空
+          </ElButton>
         </div>
       </ElRow>
       <ElRow>
@@ -37,9 +32,9 @@ plain
               <div>连接耳板抗拉强度设计值</div>
             </template>
             <ElInput v-model="f1" clearable>
-              <template #suffix
-                ><div class="last">N/mm<span class="up">2</span></div></template
-              >
+              <template #suffix>
+                <div class="last">N/mm<span class="up">2</span></div>
+              </template>
             </ElInput>
           </ElFormItem>
         </ElCol>
@@ -85,9 +80,9 @@ plain
               <div>连接耳板抗剪强度设计值</div>
             </template>
             <ElInput v-model="f3" clearable>
-              <template #suffix
-                ><div class="last">N/mm<span class="up">2</span></div></template
-              >
+              <template #suffix>
+                <div class="last">N/mm<span class="up">2</span></div>
+              </template>
             </ElInput>
           </ElFormItem>
         </ElCol>
@@ -133,9 +128,9 @@ plain
               <div>销轴抗承压强度设计值</div>
             </template>
             <ElInput v-model="f5" clearable>
-              <template #suffix
-                ><div class="last">N/mm<span class="up">2</span></div></template
-              >
+              <template #suffix>
+                <div class="last">N/mm<span class="up">2</span></div>
+              </template>
             </ElInput>
           </ElFormItem>
         </ElCol>
@@ -203,7 +198,7 @@ plain
             <template #label>
               <div>耳板验算时N取值</div>
             </template>
-            <ElInput v-model="NCop" disabled >
+            <ElInput v-model="NCop" disabled>
               <template #suffix><div class="last">kN</div></template>
             </ElInput>
           </ElFormItem>
@@ -211,7 +206,7 @@ plain
       </ElRow>
       <ElRow class="title"> 3、参考图例 </ElRow>
       <ElRow>
-        <img style="width: 100%" src="../assets/photo.png" alt="加载出错" >
+        <img style="width: 100%" src="../assets/photo.png" alt="加载出错" />
       </ElRow>
     </ElForm>
   </div>

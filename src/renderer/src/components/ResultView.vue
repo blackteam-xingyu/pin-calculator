@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import type { Result1, Result2, Result3, Result4, Result5, Result6 } from '../stores/config/count';
+import type {
+  Result1,
+  Result2,
+  Result3,
+  Result4,
+  Result5,
+  Result6,
+  Result7,
+} from '../stores/config/count';
 import { SaveFile } from '../engines/Utils';
 
 const { countStore } = useStore();
-const { result1, result2, result3, result4, result5, result6 } = countStore;
+const { result1, result2, result3, result4, result5, result6, result7 } = countStore;
 const { N, d, d0, t1, t2, a, b, f1, f2, f3, f4, f5, n, f6, tCop, NCop } = storeToRefs(countStore);
 const getResult = (res: boolean | null) => {
   if (res === true) {
@@ -13,7 +21,7 @@ const getResult = (res: boolean | null) => {
   if (res === false) {
     return '请调整设计';
   }
-  return '';
+  return '请将参数填写完整';
 };
 const selectFolder = () => {
   const data = {
@@ -36,26 +44,34 @@ const selectFolder = () => {
     result1sigma: result1.sigma,
     result1f: result1.f,
     result1b1: result1.b1,
-    result1res: result1.res,
+    result1res: getResult(result1.res),
     result2sigma: result2.sigma,
     result2f: result2.f,
-    result2res: result2.res,
+    result2res:  getResult(result2.res),
     result3tao: result3.tao,
     result3fv: result3.fv,
     result3Z: result3.Z,
-    result3res: result3.res,
+    result3res:  getResult(result3.res),
     result4sigmaC: result4.sigmaC,
     result4fbc: result4.fbc,
-    result4res: result4.res,
+    result4res:  getResult(result4.res),
     result5tao: result5.tao,
     result5fv: result5.fv,
-    result5res: result5.res,
+    result5res:  getResult(result5.res),
     result6sigmaB: result6.sigmaB,
     result6fb: result6.fb,
     result6M: result6.M,
     result6q: result6.q,
-    result6resq: result6.resq,
-    result6res: result6.res,
+    result6resq:  getResult(result6.resq),
+    result6res:  getResult(result6.res),
+    result7be1: result7.be1,
+    result7be2: result7.be2,
+    result7bt1: result7.bt1,
+    result7bt2: result7.bt2,
+    result7res1:  getResult(result7.res1),
+    result7res2:  getResult(result7.res2),
+    result7res3:  getResult(result7.res3),
+    result7res4:  getResult(result7.res4),
   };
   SaveFile(data);
 };
@@ -65,13 +81,15 @@ const selectFolder = () => {
   <div class="result">
     <ElRow class="title">
       1、销轴孔净截面耳板抗拉强度验算
-      <ElButton size="small" type="success" style="margin-left: 20px;" @click="selectFolder"> 生成word表格计算书 </ElButton>
+      <ElButton size="small" type="success" style="margin-left: 20px" @click="selectFolder">
+        生成word表格计算书
+      </ElButton>
     </ElRow>
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result1/img.png" alt="error" >
-        <img src="../assets/result1/img2.png" alt="error" >
+        <img src="../assets/result1/img.png" alt="error" />
+        <img src="../assets/result1/img2.png" alt="error" />
       </div>
     </ElRow>
     <ElRow class="data">
@@ -107,7 +125,7 @@ const selectFolder = () => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result2/img.png" alt="error" style="height: 60px" >
+        <img src="../assets/result2/img.png" alt="error" style="height: 60px" />
       </div>
     </ElRow>
     <ElRow class="data">
@@ -137,8 +155,8 @@ const selectFolder = () => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result3/img.png" alt="error" style="height: 45px" >
-        <img src="../assets/result3/img2.png" alt="error" style="height: 20px" >
+        <img src="../assets/result3/img.png" alt="error" style="height: 45px" />
+        <img src="../assets/result3/img2.png" alt="error" style="height: 20px" />
       </div>
     </ElRow>
     <ElRow class="data">
@@ -174,7 +192,7 @@ const selectFolder = () => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result4/img.png" alt="error" style="height: 43px" >
+        <img src="../assets/result4/img.png" alt="error" style="height: 43px" />
       </div>
     </ElRow>
     <ElRow class="data">
@@ -206,7 +224,7 @@ const selectFolder = () => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result5/img.png" alt="error" style="height: 60px" >
+        <img src="../assets/result5/img.png" alt="error" style="height: 60px" />
       </div>
     </ElRow>
     <ElRow class="data">
@@ -236,9 +254,9 @@ const selectFolder = () => {
     <ElRow>
       <div class="gs">
         公式：
-        <img src="../assets/result6/img.png" alt="error" style="height: 60px" >
-        <img src="../assets/result6/img2.png" alt="error" style="height: 60px" >
-        <img src="../assets/result6/img3.png" alt="error" style="height: 40px" >
+        <img src="../assets/result6/img.png" alt="error" style="height: 60px" />
+        <img src="../assets/result6/img2.png" alt="error" style="height: 60px" />
+        <img src="../assets/result6/img3.png" alt="error" style="height: 40px" />
       </div>
     </ElRow>
     <ElRow class="data">
@@ -284,6 +302,78 @@ const selectFolder = () => {
             <div class="data-title">材料组合强度强度校验结果</div>
           </template>
           {{ getResult((result6 as Result6).resq) }}
+        </ElDescriptionsItem>
+      </ElDescriptions>
+    </ElRow>
+    <ElRow class="title"> 7、 销轴连接时耳板的几何构造验算 </ElRow>
+    <ElRow>
+      <div class="gs">
+        公式：
+        <img src="../assets/result7/img.png" alt="error" style="height: 60px" />
+        <img src="../assets/result7/img1.png" alt="error" style="height: 60px" />
+        <img src="../assets/result7/img2.png" alt="error" style="height: 40px" />
+        <img src="../assets/result7/img3.png" alt="error" style="height: 40px" />
+      </div>
+    </ElRow>
+    <ElRow class="data">
+      <ElDescriptions border :column="2">
+        <ElDescriptionsItem :span="2">
+          <template #label>
+            <div class="data-title">连接耳板1（端部）</div>
+          </template>
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">b/t</div>
+          </template>
+          {{ (result7 as Result7).bt1 }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">校验结果</div>
+          </template>
+          {{ getResult((result7 as Result7).res1) }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">be</div>
+          </template>
+          {{ (result7 as Result7).be1 }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">校验结果</div>
+          </template>
+          {{ getResult((result7 as Result7).res2) }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem :span="2">
+          <template #label>
+            <div class="data-title">连接耳板2（中间）</div>
+          </template>
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">b/t</div>
+          </template>
+          {{ (result7 as Result7).bt2 }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">校验结果</div>
+          </template>
+          {{ getResult((result7 as Result7).res3) }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">be</div>
+          </template>
+          {{ (result7 as Result7).be2 }}
+        </ElDescriptionsItem>
+        <ElDescriptionsItem>
+          <template #label>
+            <div class="data-title">校验结果</div>
+          </template>
+          {{ getResult((result7 as Result7).res4) }}
         </ElDescriptionsItem>
       </ElDescriptions>
     </ElRow>

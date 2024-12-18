@@ -122,7 +122,9 @@ const useCountStore = () =>
             res: null,
           };
         }
-        const sigmaC = math.evaluate(`${state.N} * 1000 / (${state.d} * ${this.tCop})`).toFixed(2);
+        const sigmaC = math
+          .evaluate(`${this.NCop} * 1000 / (${state.d} * ${this.tCop})`)
+          .toFixed(2);
         return {
           sigmaC,
           fbc: `${state.f2}`,
@@ -177,6 +179,42 @@ const useCountStore = () =>
           q,
           res: Compare(sigmaB, state.f6),
           resq: Compare(q, 1),
+        };
+      },
+      result7(state): Result7 {
+        if (!Validate(state.a, state.b, state.t1, state.t2)) {
+          return {
+            bt1: '请将参数填写完整',
+            be1: '请将参数填写完整',
+            bt2: '请将参数填写完整',
+            be2: '请将参数填写完整',
+            res1: null,
+            res2: null,
+            res3: null,
+            res4: null,
+          };
+        }
+        const bt1 = math.evaluate(`${state.b} / ${state.t1}`).toFixed(2);
+        const bt2 = math.evaluate(`${state.b} / ${state.t2}`).toFixed(2);
+        const be1 = math.evaluate(`(2 * ${state.t1} + 16) > ${state.b}`)
+          ? state.b
+          : math.evaluate(`2 * ${state.t1} + 16`).toString();
+        const be2 = math.evaluate(`(2 * ${state.t2} + 16) > ${state.b}`)
+          ? state.b
+          : math.evaluate(`2 * ${state.t2} + 16`).toString();
+        const res1 = Compare(bt1, 4);
+        const res2 = Compare(math.evaluate(`4 * ${be1} / 3`), state.a);
+        const res3 = Compare(bt2, 4);
+        const res4 = Compare(math.evaluate(`4 * ${be2} / 3`), state.a);
+        return {
+          bt1,
+          be1,
+          bt2,
+          be2,
+          res1,
+          res2,
+          res3,
+          res4,
         };
       },
     },
@@ -292,5 +330,16 @@ export interface Result6 {
   q: string;
   res: boolean | null;
   resq: boolean | null;
+}
+
+export interface Result7 {
+  bt1: string;
+  be1: string;
+  bt2: string;
+  be2: string;
+  res1: boolean | null;
+  res2: boolean | null;
+  res3: boolean | null;
+  res4: boolean | null;
 }
 export default useCountStore();
